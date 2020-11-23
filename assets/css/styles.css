@@ -13,7 +13,14 @@ body {
     align-items: center;
 }
 
-.high-score {
+#all-scores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: pre;
+}
+
+#high-score {
     color: purple;
     display: flex;
     text-decoration: underline;

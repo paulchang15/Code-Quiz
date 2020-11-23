@@ -5,10 +5,12 @@ var questionContainerEl = document.getElementById('question-container')
 var questionEl = document.getElementById('question')
 var answerButtonsEl = document.getElementById('answer-buttons')
 var startText = document.getElementById('start-text')
-
+var viewScore = document.getElementById('high-score')
+var scores = document.getElementById('all-scores')
 var counter = 60
+var startCountdown 
 var shuffledQuestions, currentQuestionIndex
-
+var isPaused = false
 
 var questions = [
     {
@@ -57,7 +59,6 @@ var questions = [
     },
 ]
 
-
 // function to start the game
 function startGame() {
     startBtn.classList.add('hide')
@@ -65,6 +66,7 @@ function startGame() {
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionContainerEl.classList.remove('hide')
+    retryBtn.classList.add('hide');
     setNextQuestion();
     timeLeft();
 };
@@ -121,22 +123,25 @@ function resetState() {
         answerButtonsEl.removeChild(
             answerButtonsEl.firstChild
         )
-    }   
+    }  
 };
-
 
 function timeLeft() {
     var currentTime = document.querySelector("#time-left")
     currentTime.innerText = `Time: ${counter}`
-    var startCountdown = setInterval(function() {
-        counter--;
+    startCountdown = setInterval(function() {
         if(counter === 0) {
-            clearInterval(startCountdown);
             resetState();
+            clearInterval(startCountdown);
             questionEl.textContent = "Your time has ran out! Would you like to retry?"
             retryBtn.classList.remove('hide')
-            retryBtn.addEventListener('click', startGame);
+        } 
+        if(isPaused) {
+            
+        } else {
+            counter--;
         }
+        
         currentTime.innerText = `Time: ${counter}`
     }, 1000);
 };
@@ -154,16 +159,32 @@ function highScore() {
 };
 
 function allScores() {
+    var data = JSON.parse(localStorage.getItem("high-score"));
+    startBtn.classList.add('hide');
+    retryBtn.classList.remove('hide');
+    var scoreList = 'highscore:\n'
+    for (var i = 0; i < data.length; i++) {
+        scoreList = scoreList + data[i] + '\n'
+    }
+    scores.textContent = scoreList;
+    console.log(scoreList)
+    pauseGame();
+};
 
-    console.log(allScores);
+function pauseGame() {
+    isPaused = true
 };
 
 function endGame() {
     questionEl.textContent = "Good job on finishing the Questions! Click on View High Score to view your scores!",
+    retryBtn.classList.remove('hide');
+    clearInterval(startCountdown);
     highScore();
+    counter = 60
 };
 
-// viewScore.addEventListener('click', highScore);
+retryBtn.addEventListener('click', startGame);
+viewScore.addEventListener('click', allScores);
 startBtn.addEventListener('click', startGame);
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex ++
