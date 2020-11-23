@@ -16,7 +16,12 @@ body {
 .high-score {
     color: purple;
     display: flex;
+    text-decoration: underline;
+    cursor: pointer;
+}
 
+#question-container {
+    text-align: center;
 }
 .container {
     width: 800px;
