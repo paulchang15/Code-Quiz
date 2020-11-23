@@ -5,7 +5,7 @@ var questionContainerEl = document.getElementById('question-container')
 var questionEl = document.getElementById('question')
 var answerButtonsEl = document.getElementById('answer-buttons')
 var startText = document.getElementById('start-text')
-var viewScore = document.getElementsByClassName('.high-score')
+
 var counter = 60
 var shuffledQuestions, currentQuestionIndex
 
@@ -41,8 +41,8 @@ var questions = [
         question: 'String values must be enclosed within _____ when being assigned to variables.',
         answers: [
             {text: 'parenthesis', correct: false},
-            {text: 'commas', correct: false},
             {text: 'quotes', correct: true},
+            {text: 'commas', correct: false},
             {text: 'curly brackets', correct: false},
         ]
     },
@@ -80,8 +80,9 @@ function showQuestion(question) {
     // function to loop through answers to determine whether they are correct or not
     function selectAnswer() {
         for (var i = 0; i < question.answers.length; i++) {
+            console.log(this.textContent)
             if (this.textContent === question.answers[i].text) {
-                if (question.answers[i].true) {
+                if (question.answers[i].correct) {
                     counter += 10
                     resetState();
                     questionEl.textContent = "Correct!"
@@ -139,26 +140,31 @@ function timeLeft() {
 
 function highScore() {
     // if there is no localStorage with that name
-    if (localStorage.getItem('.high-score') === null) {
-        localStorage.setItem('.high-score', JSON.stringify([]))
+    if (localStorage.getItem('high-score') === null) {
+        localStorage.setItem('high-score', JSON.stringify([]))
     }
     // that way we always have some localStorage
-    localStorage.setItem ('timeLeft', JASON.stringify.counter)
-    var data = JSON.parse(localStorage.getItem(".high-score"));
+    localStorage.setItem ('timeLeft', counter)
+    var data = JSON.parse(localStorage.getItem("high-score"));
     data.push(timeLeft);
-    localStorage.setItem(".high-score", JSON.stringify(data));
+    localStorage.setItem("high-score", JSON.stringify(data));
 };
 
 function allScores() {
-    viewScore.addEventListener('click', highScore);
-    questionEl
+    // JSON.getItem("timeLeft")
+    
+    // for (var i = 0; i < high-score.length; i++) {
+    //     questionEl.textContent = JSON.parse(JSON.getItem("high-score")) 
+    // }
     console.log(allScores);
 };
 
 function endGame() {
-    questionEl.textContent = "Good job on finishing the Questions! Click on View High Score to view your scores!"
+    questionEl.textContent = "Good job on finishing the Questions! Click on View High Score to view your scores!",
+    highScore();
 };
 
+// viewScore.addEventListener('click', highScore);
 startBtn.addEventListener('click', startGame);
 nextBtn.addEventListener('click', () => {
     currentQuestionIndex ++
