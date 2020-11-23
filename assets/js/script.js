@@ -72,7 +72,12 @@ function startGame() {
 // function to set the next question by shuffling questions
 function setNextQuestion() {
     resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+    // if our current question is => than actual length of questions, then endGame, otherwise showQuestion
+    if (currentQuestionIndex >= questions.length) {
+        endGame();
+    } else {
+        showQuestion(shuffledQuestions[currentQuestionIndex]);
+    }
 };
 
 // function to display the question
@@ -96,7 +101,6 @@ function showQuestion(question) {
             }
         }
     };
-    endGame();
     questionEl.innerText = question.question
     question.answers.forEach(answer => {
         const button = document.createElement('button')
@@ -122,7 +126,6 @@ function resetState() {
 
 
 function timeLeft() {
-    var counter = 60
     var currentTime = document.querySelector("#time-left")
     currentTime.innerText = `Time: ${counter}`
     var startCountdown = setInterval(function() {
@@ -146,16 +149,12 @@ function highScore() {
     // that way we always have some localStorage
     localStorage.setItem ('timeLeft', counter)
     var data = JSON.parse(localStorage.getItem("high-score"));
-    data.push(timeLeft);
+    data.push(counter);
     localStorage.setItem("high-score", JSON.stringify(data));
 };
 
 function allScores() {
-    // JSON.getItem("timeLeft")
-    
-    // for (var i = 0; i < high-score.length; i++) {
-    //     questionEl.textContent = JSON.parse(JSON.getItem("high-score")) 
-    // }
+
     console.log(allScores);
 };
 
