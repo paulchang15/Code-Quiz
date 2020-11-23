@@ -6,29 +6,57 @@ var questionEl = document.getElementById('question')
 var answerButtonsEl = document.getElementById('answer-buttons')
 var startText = document.getElementById('start-text')
 var viewScore = document.getElementsByClassName('.high-score')
-var counter = 75
+var counter = 60
 var shuffledQuestions, currentQuestionIndex
 
 
 var questions = [
     {
-        question: 'What is a variable?',
+        question: 'Commonly used data types DO Not Include:',
         answers: [
-            {text: 'a global scope parameter', correct: true},
-            {text: 'a math term', correct: false},
-            {text: '', correct: false},
-            {text: '', correct: false},
+            {text: 'strings', correct: false},
+            {text: 'booleans', correct: false},
+            {text: 'alerts', correct: true},
+            {text: 'numbers', correct: false},
         ]
     }, {
-        question: 'What is a array?',
+        question: 'The condition in an if/else statement is enclosed with____.',
         answers: [
-            {text: 'a global scope parameter', correct: true},
-            {text: 'a math term', correct: false},
-            {text: '', correct: false},
-            {text: '', correct: false},
+            {text: 'parenthesis', correct: true},
+            {text: 'quotes', correct: false},
+            {text: 'curly brackets', correct: false},
+            {text: 'square brackets', correct: false},
         ]
-    }
+    },
+    {
+        question: 'Arrays in Javascript can be used to store ______.',
+        answers: [
+            {text: 'numbers and strings', correct: false},
+            {text: 'other arrays', correct: false},
+            {text: 'booleans', correct: false},
+            {text: 'all of the above', correct: true},
+        ]
+    },
+    {
+        question: 'String values must be enclosed within _____ when being assigned to variables.',
+        answers: [
+            {text: 'parenthesis', correct: false},
+            {text: 'commas', correct: false},
+            {text: 'quotes', correct: true},
+            {text: 'curly brackets', correct: false},
+        ]
+    },
+    {
+        question: 'A very useful tool used during development and debugging for printing content to the debugger is:',
+        answers: [
+            {text: 'Javascript', correct: false},
+            {text: 'console.log', correct: true},
+            {text: 'terminal/bash', correct: false},
+            {text: 'for loops', correct: false},
+        ]
+    },
 ]
+
 
 // function to start the game
 function startGame() {
@@ -49,26 +77,25 @@ function setNextQuestion() {
 
 // function to display the question
 function showQuestion(question) {
-    console.log(question)
-
     // function to loop through answers to determine whether they are correct or not
     function selectAnswer() {
         for (var i = 0; i < question.answers.length; i++) {
             if (this.textContent === question.answers[i].text) {
-                if (question.answers[i].correct) {
+                if (question.answers[i].true) {
                     counter += 10
                     resetState();
                     questionEl.textContent = "Correct!"
-                    nextBtn.classList.remove('hide')
+                    nextBtn.classList.remove('hide');
                 } else {
                     counter -= 5
                     resetState();
                     questionEl.textContent = "Incorrect!"
-                    nextBtn.classList.remove('hide')
+                    nextBtn.classList.remove('hide');
                 }
-            } 
+            }
         }
     };
+    endGame();
     questionEl.innerText = question.question
     question.answers.forEach(answer => {
         const button = document.createElement('button')
@@ -94,7 +121,7 @@ function resetState() {
 
 
 function timeLeft() {
-    var counter = 75
+    var counter = 60
     var currentTime = document.querySelector("#time-left")
     currentTime.innerText = `Time: ${counter}`
     var startCountdown = setInterval(function() {
@@ -102,7 +129,7 @@ function timeLeft() {
         if(counter === 0) {
             clearInterval(startCountdown);
             resetState();
-            questionEl.textContent = "The Game has ended! Would you like to retry?"
+            questionEl.textContent = "Your time has ran out! Would you like to retry?"
             retryBtn.classList.remove('hide')
             retryBtn.addEventListener('click', startGame);
         }
@@ -124,13 +151,12 @@ function highScore() {
 
 function allScores() {
     viewScore.addEventListener('click', highScore);
-    console.log(allScores)
+    questionEl
+    console.log(allScores);
 };
 
 function endGame() {
-    if (question.answers.length < question.answers.length[max]) {
-
-    }
+    questionEl.textContent = "Good job on finishing the Questions! Click on View High Score to view your scores!"
 };
 
 startBtn.addEventListener('click', startGame);
